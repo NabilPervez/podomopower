@@ -1,7 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 
-export default function SoundControl() {
-    const [isPlaying, setIsPlaying] = useState(false);
+export default function SoundControl({ externalPlayingState, onToggleExternal }) {
+    // If externalPlayingState is provided (from App/Timer usually), use it. 
+    // Otherwise default to local state (though for this feature request it should be linked).
+    const [internalIsPlaying, setInternalIsPlaying] = useState(false);
+    const isPlaying = externalPlayingState !== undefined ? externalPlayingState : internalIsPlaying;
+
     const [volume, setVolume] = useState(0.5);
     const audioContextRef = useRef(null);
     const gainNodeRef = useRef(null);
@@ -37,9 +41,12 @@ export default function SoundControl() {
                 const output = e.outputBuffer.getChannelData(0);
                 for (let i = 0; i < bufferSize; i++) {
                     const white = Math.random() * 2 - 1;
+                    // Brown noise: integrate white noise
                     output[i] = (lastOut + (0.02 * white)) / 1.02;
                     lastOut = output[i];
-                    output[i] *= 3.5; // Compensate for gain
+                    // SIGNIFICANTLY REDUCED GAIN:
+                    // Previous was * 3.5. New is * 0.1 to be much quieter by default.
+                    output[i] *= 0.1;
                 }
             };
 
@@ -74,17 +81,21 @@ export default function SoundControl() {
     }, [volume]);
 
     const toggleSound = () => {
-        setIsPlaying(!isPlaying);
+        if (onToggleExternal) {
+            onToggleExternal(!isPlaying);
+        } else {
+            setInternalIsPlaying(!internalIsPlaying);
+        }
     };
 
     return (
-        <div className="bg-white/90 backdrop-blur rounded-2xl p-4 shadow-sm border border-slate-100 flex items-center justify-between gap-4">
+        <div className="bg-slate-800/90 backdrop-blur rounded-2xl p-4 shadow-sm border border-slate-700 flex items-center justify-between gap-4">
             <div className="flex items-center gap-3">
                 <button
                     onClick={toggleSound}
                     className={`p-3 rounded-full transition-colors ${isPlaying
                             ? 'bg-islamic-green text-white'
-                            : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
+                            : 'bg-slate-700 text-slate-400 hover:bg-slate-600'
                         }`}
                     aria-label={isPlaying ? "Stop Brown Noise" : "Play Brown Noise"}
                 >
@@ -95,8 +106,8 @@ export default function SoundControl() {
                     )}
                 </button>
                 <div>
-                    <h3 className="font-semibold text-slate-700">Focus Noise</h3>
-                    <p className="text-xs text-slate-500">Brown Noise for Deep Focus</p>
+                    <h3 className="font-semibold text-slate-200">Focus Noise</h3>
+                    <p className="text-xs text-slate-400">Brown Noise</p>
                 </div>
             </div>
 
@@ -109,7 +120,7 @@ export default function SoundControl() {
                     step="0.01"
                     value={volume}
                     onChange={(e) => setVolume(parseFloat(e.target.value))}
-                    className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-islamic-green"
+                    className="w-full h-2 bg-slate-600 rounded-lg appearance-none cursor-pointer accent-islamic-green"
                 />
             </div>
         </div>

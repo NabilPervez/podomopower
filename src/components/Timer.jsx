@@ -6,7 +6,7 @@ const MODES = {
     longBreak: { label: 'Long Break', time: 15 * 60, color: 'bg-blue-600' },
 };
 
-export default function Timer() {
+export default function Timer({ onTimerStart, onTimerStop }) {
     const [mode, setMode] = useState('pomodoro');
     const [timeLeft, setTimeLeft] = useState(MODES.pomodoro.time);
     const [isRunning, setIsRunning] = useState(false);
@@ -20,6 +20,8 @@ export default function Timer() {
             }, 1000);
         } else if (timeLeft === 0) {
             setIsRunning(false);
+            onTimerStop && onTimerStop(); // Notify stop
+
             // Play sound or notify
             if (Notification.permission === 'granted') {
                 new Notification("Time's up!", { body: `Your ${MODES[mode].label} session has finished.` });
@@ -39,14 +41,22 @@ export default function Timer() {
         setMode(newMode);
         setTimeLeft(MODES[newMode].time);
         setIsRunning(false);
+        onTimerStop && onTimerStop();
     };
 
     const toggleTimer = () => {
-        setIsRunning(!isRunning);
+        const nextState = !isRunning;
+        setIsRunning(nextState);
+        if (nextState) {
+            onTimerStart && onTimerStart();
+        } else {
+            onTimerStop && onTimerStop();
+        }
     };
 
     const resetTimer = () => {
         setIsRunning(false);
+        onTimerStop && onTimerStop();
         setTimeLeft(MODES[mode].time);
     };
 
@@ -59,15 +69,15 @@ export default function Timer() {
     const progress = ((MODES[mode].time - timeLeft) / MODES[mode].time) * 100;
 
     return (
-        <div className="w-full max-w-md mx-auto bg-white rounded-3xl shadow-xl overflow-hidden border-2 border-slate-100">
-            <div className="flex p-2 bg-slate-50 justify-between">
+        <div className="w-full max-w-md mx-auto bg-slate-800 rounded-3xl shadow-xl overflow-hidden border-2 border-slate-700">
+            <div className="flex p-2 bg-slate-900/50 justify-between">
                 {Object.keys(MODES).map((key) => (
                     <button
                         key={key}
                         onClick={() => switchMode(key)}
                         className={`flex-1 py-2 px-4 rounded-xl text-sm font-semibold transition-all duration-300 ${mode === key
                                 ? `${MODES[key].color} text-white shadow-md transform -translate-y-0.5`
-                                : 'text-slate-500 hover:bg-slate-200'
+                                : 'text-slate-400 hover:bg-slate-700 hover:text-slate-200'
                             }`}
                     >
                         {MODES[key].label}
@@ -88,7 +98,7 @@ export default function Timer() {
                 <div className="flex justify-center gap-4">
                     <button
                         onClick={toggleTimer}
-                        className={`px-8 py-4 rounded-2xl text-xl font-bold text-white shadow-lg transform active:scale-95 transition-all ${isRunning ? 'bg-slate-700 hover:bg-slate-800' : 'bg-islamic-green hover:bg-green-800'
+                        className={`px-8 py-4 rounded-2xl text-xl font-bold text-white shadow-lg transform active:scale-95 transition-all ${isRunning ? 'bg-slate-700 hover:bg-slate-600' : 'bg-islamic-green hover:bg-green-700'
                             }`}
                     >
                         {isRunning ? 'PAUSE' : 'START'}
@@ -96,7 +106,7 @@ export default function Timer() {
 
                     <button
                         onClick={resetTimer}
-                        className="px-6 py-4 rounded-2xl text-xl font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 transition-all"
+                        className="px-6 py-4 rounded-2xl text-xl font-bold text-slate-400 bg-slate-900 hover:bg-slate-700 transition-all"
                     >
                         ↺
                     </button>
@@ -104,7 +114,7 @@ export default function Timer() {
             </div>
 
             {/* Progress Bar Line */}
-            <div className="h-2 bg-slate-100 w-full">
+            <div className="h-2 bg-slate-900 w-full">
                 <div
                     className={`h-full transition-all duration-1000 ease-linear ${MODES[mode].color}`}
                     style={{ width: `${progress}%` }}

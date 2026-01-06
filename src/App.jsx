@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Timer from './components/Timer'
 import QuoteDisplay from './components/QuoteDisplay'
+import SoundControl from './components/SoundControl'
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
       <main className="w-full max-w-3xl z-10 flex flex-col gap-8">
         <Timer />
         <QuoteDisplay />
+        <SoundControl />
 
         {/* Task List Placeholder or Features */}
         <div className="text-center text-sm text-slate-400 mt-8">

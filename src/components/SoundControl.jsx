@@ -44,9 +44,8 @@ export default function SoundControl({ externalPlayingState, onToggleExternal })
                     // Brown noise: integrate white noise
                     output[i] = (lastOut + (0.02 * white)) / 1.02;
                     lastOut = output[i];
-                    // SIGNIFICANTLY REDUCED GAIN:
-                    // Previous was * 3.5. New is * 0.1 to be much quieter by default.
-                    output[i] *= 0.1;
+                    // Restored gain to 3.5 as 0.1 was too quiet.
+                    output[i] *= 3.5;
                 }
             };
 
@@ -94,8 +93,8 @@ export default function SoundControl({ externalPlayingState, onToggleExternal })
                 <button
                     onClick={toggleSound}
                     className={`p-3 rounded-full transition-colors ${isPlaying
-                            ? 'bg-islamic-green text-white'
-                            : 'bg-slate-700 text-slate-400 hover:bg-slate-600'
+                        ? 'bg-islamic-green text-white'
+                        : 'bg-slate-700 text-slate-400 hover:bg-slate-600'
                         }`}
                     aria-label={isPlaying ? "Stop Brown Noise" : "Play Brown Noise"}
                 >

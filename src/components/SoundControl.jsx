@@ -88,13 +88,13 @@ export default function SoundControl({ externalPlayingState, onToggleExternal })
     };
 
     return (
-        <div className="bg-slate-800/90 backdrop-blur rounded-2xl p-4 shadow-sm border border-slate-700 flex items-center justify-between gap-4">
+        <div className="bg-regal-navy/90 backdrop-blur rounded-2xl p-4 shadow-sm border border-cerulean/50 flex items-center justify-between gap-4">
             <div className="flex items-center gap-3">
                 <button
                     onClick={toggleSound}
                     className={`p-3 rounded-full transition-colors ${isPlaying
-                        ? 'bg-islamic-green text-white'
-                        : 'bg-slate-700 text-slate-400 hover:bg-slate-600'
+                        ? 'bg-cerulean text-white'
+                        : 'bg-baltic-blue text-powder-blue hover:bg-cerulean hover:text-white'
                         }`}
                     aria-label={isPlaying ? "Stop Brown Noise" : "Play Brown Noise"}
                 >
@@ -105,13 +105,13 @@ export default function SoundControl({ externalPlayingState, onToggleExternal })
                     )}
                 </button>
                 <div>
-                    <h3 className="font-semibold text-slate-200">Focus Noise</h3>
-                    <p className="text-xs text-slate-400">Brown Noise</p>
+                    <h3 className="font-semibold text-white">Focus Noise</h3>
+                    <p className="text-xs text-powder-blue">Brown Noise</p>
                 </div>
             </div>
 
             <div className="flex items-center gap-2 w-32">
-                <span className="text-xs text-slate-400">Vol</span>
+                <span className="text-xs text-powder-blue">Vol</span>
                 <input
                     type="range"
                     min="0"
@@ -119,7 +119,7 @@ export default function SoundControl({ externalPlayingState, onToggleExternal })
                     step="0.01"
                     value={volume}
                     onChange={(e) => setVolume(parseFloat(e.target.value))}
-                    className="w-full h-2 bg-slate-600 rounded-lg appearance-none cursor-pointer accent-islamic-green"
+                    className="w-full h-2 bg-baltic-blue rounded-lg appearance-none cursor-pointer accent-cerulean"
                 />
             </div>
         </div>

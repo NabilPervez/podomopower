@@ -15,10 +15,10 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-start p-4 pt-12 relative overflow-hidden">
+    <div className="min-h-screen bg-space-indigo flex flex-col items-center justify-start p-4 pt-12 relative overflow-hidden">
 
       {/* Background Decor */}
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-islamic-green to-islamic-gold" />
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cerulean to-powder-blue" />
 
 
 
@@ -28,7 +28,7 @@ function App() {
         <SoundControl externalPlayingState={isSoundPlaying} onToggleExternal={setIsSoundPlaying} />
 
 
-        <div className="text-center text-sm text-slate-500 mt-8">
+        <div className="text-center text-sm text-powder-blue mt-8">
           Designed to help you focus for the sake of Allah.
         </div>
       </main>

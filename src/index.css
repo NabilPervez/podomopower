@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 body {
-  @apply bg-off-white text-slate-800 antialiased;
+  @apply bg-space-indigo text-off-white antialiased;
 }

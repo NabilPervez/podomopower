@@ -17,11 +17,11 @@ export default function QuoteDisplay() {
     }, []);
 
     return (
-        <div className="text-center p-6 bg-slate-800/80 backdrop-blur-sm rounded-xl shadow-sm border border-slate-700 max-w-2xl mx-auto my-8">
-            <p className="text-xl md:text-2xl font-serif text-islamic-green mb-4 leading-relaxed">
+        <div className="text-center p-6 bg-regal-navy/80 backdrop-blur-sm rounded-xl shadow-sm border border-cerulean/50 max-w-2xl mx-auto my-8">
+            <p className="text-xl md:text-2xl font-serif text-powder-blue mb-4 leading-relaxed">
                 "{quote.text}"
             </p>
-            <p className="text-sm text-slate-400 font-medium uppercase tracking-wider">
+            <p className="text-sm text-cerulean font-medium uppercase tracking-wider">
                 — {quote.source}
             </p>
         </div>

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { quotes } from '../data/quotes';
 
-export default function QuoteDisplay() {
+export default function QuoteDisplay({ className = "" }) {
     const [quote, setQuote] = useState(quotes[0]);
 
     useEffect(() => {
@@ -17,7 +17,7 @@ export default function QuoteDisplay() {
     }, []);
 
     return (
-        <div className="text-center p-6 bg-regal-navy/80 backdrop-blur-sm rounded-xl shadow-sm border border-cerulean/50 max-w-2xl mx-auto my-8">
+        <div className={`text-center p-6 bg-regal-navy/80 backdrop-blur-sm rounded-xl shadow-sm border border-cerulean/50 flex flex-col justify-center items-center h-full w-full ${className}`}>
             <p className="text-xl md:text-2xl font-serif text-powder-blue mb-4 leading-relaxed">
                 "{quote.text}"
             </p>

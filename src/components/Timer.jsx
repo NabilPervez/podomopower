@@ -6,7 +6,7 @@ const MODES = {
     longBreak: { label: 'Long Break', time: 15 * 60, color: 'bg-baltic-blue' },
 };
 
-export default function Timer({ onTimerStart, onTimerStop }) {
+export default function Timer({ onTimerStart, onTimerStop, className = "" }) {
     const [mode, setMode] = useState('pomodoro');
     const [timeLeft, setTimeLeft] = useState(MODES.pomodoro.time);
     const [isRunning, setIsRunning] = useState(false);
@@ -69,7 +69,7 @@ export default function Timer({ onTimerStart, onTimerStop }) {
     const progress = ((MODES[mode].time - timeLeft) / MODES[mode].time) * 100;
 
     return (
-        <div className="w-full max-w-md mx-auto bg-regal-navy/80 backdrop-blur-sm rounded-3xl shadow-xl overflow-hidden border-2 border-cerulean/50">
+        <div className={`w-full h-full flex flex-col bg-regal-navy/80 backdrop-blur-sm rounded-3xl shadow-xl overflow-hidden border-2 border-cerulean/50 ${className}`}>
             <div className="flex p-2 bg-space-indigo/50 justify-between">
                 {Object.keys(MODES).map((key) => (
                     <button
@@ -85,7 +85,7 @@ export default function Timer({ onTimerStart, onTimerStop }) {
                 ))}
             </div>
 
-            <div className="p-10 text-center relative">
+            <div className="p-10 text-center relative flex-1 flex flex-col justify-center">
                 {/* Progress Ring Background */}
                 <div className="absolute inset-0 opacity-5 pointer-events-none">
                     {/* Can add Islamic pattern SVG here later */}

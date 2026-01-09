@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 
-export default function SoundControl({ externalPlayingState, onToggleExternal }) {
+export default function SoundControl({ externalPlayingState, onToggleExternal, className = "" }) {
     // If externalPlayingState is provided (from App/Timer usually), use it. 
     // Otherwise default to local state (though for this feature request it should be linked).
     const [internalIsPlaying, setInternalIsPlaying] = useState(false);
@@ -88,7 +88,7 @@ export default function SoundControl({ externalPlayingState, onToggleExternal })
     };
 
     return (
-        <div className="bg-regal-navy/90 backdrop-blur rounded-2xl p-4 shadow-sm border border-cerulean/50 flex items-center justify-between gap-4">
+        <div className={`bg-regal-navy/90 backdrop-blur rounded-2xl p-4 shadow-sm border border-cerulean/50 flex flex-col justify-center gap-4 h-full w-full ${className}`}>
             <div className="flex items-center gap-3">
                 <button
                     onClick={toggleSound}
@@ -110,8 +110,11 @@ export default function SoundControl({ externalPlayingState, onToggleExternal })
                 </div>
             </div>
 
-            <div className="flex items-center gap-2 w-32">
-                <span className="text-xs text-powder-blue">Vol</span>
+            <div className="flex flex-col w-full gap-2">
+                <div className="flex justify-between">
+                    <span className="text-xs text-powder-blue">Volume</span>
+                    <span className="text-xs text-powder-blue">{Math.round(volume * 100)}%</span>
+                </div>
                 <input
                     type="range"
                     min="0"
